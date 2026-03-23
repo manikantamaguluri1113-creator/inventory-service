@@ -1,0 +1,19 @@
+# STS metadata
+.metadata/
+
+# Maven
+target/
+*.class
+
+# Spring Boot
+*.jar
+*.war
+
+# IDE
+.classpath
+.project
+.settings/
+*.launch
+
+# Logs
+*.log
