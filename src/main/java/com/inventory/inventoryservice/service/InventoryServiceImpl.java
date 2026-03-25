@@ -77,7 +77,7 @@ public class InventoryServiceImpl implements InventoryService {
         int threshold = item.getReorderThreshold();
         int currentQty = item.getQuantity();
 
-        int reorderQty = threshold - currentQty;
+        int reorderQty = (threshold * 2)- currentQty;
 
         item.setQuantity(currentQty + reorderQty);
         item.setLastUpdated(LocalDateTime.now());
