@@ -20,6 +20,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private AuditLogRepository auditLogRepository;
+    
+    @Autowired
+    private StockBroadcastService broadcastService;
 
     @Override
     public List<StockItem> getAllStock() {
@@ -49,7 +52,7 @@ public class InventoryServiceImpl implements InventoryService {
         item.setStatus(resolveStatus(item.getQuantity(), item.getReorderThreshold()));
 
         StockItem saved = stockRepository.save(item);
-
+        broadcastService.broadcastStockUpdate(saved);
         auditLogRepository.save(AuditLog.of(saved, previousQty, delta));
 
         return saved;
@@ -76,8 +79,12 @@ public class InventoryServiceImpl implements InventoryService {
         existing.setStatus(resolveStatus(
                 existing.getQuantity(),
                 existing.getReorderThreshold()));
+        
+        StockItem saved = stockRepository.save(existing);
+        broadcastService.broadcastStockUpdate(saved);
+        return saved;
 
-        return stockRepository.save(existing);
+        //return stockRepository.save(existing);
     }
 
     @Override
